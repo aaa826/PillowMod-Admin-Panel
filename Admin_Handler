@@ -1,0 +1,68 @@
+local adminIDs = {911952633, 705555622, 1969109358, 292192024, 857128349, 738523006}
+local allowed = {"progamers123131", "Kitashiii", "minitcher1646519, campslte", "Elielgaming130"}
+
+
+
+game.Players.PlayerAdded:Connect(function(plr)
+
+	if table.find(adminIDs, plr.UserId) then
+
+
+		plr.CharacterAdded:Connect(function()
+			wait()
+			script.AdminGui:Clone().Parent = plr:WaitForChild("PlayerGui")
+		end)
+	end
+end)
+
+
+
+game.ReplicatedStorage.AdminClicked.OnServerEvent:Connect(function(admin, plrChosen, buttonChosen)
+
+	
+	game.Players.PlayerAdded:connect(function(player)
+		for i, v in pairs(allowed) do
+			if player.Name == v then
+				script.AdminGui:Clone().Parent = player.PlayerGui
+			end
+		end
+	end)
+	
+	if not plrChosen or not buttonChosen or not table.find(adminIDs, admin.UserId) then return end
+
+
+	if buttonChosen == "Kill" then
+
+		if plrChosen.Character and plrChosen.Character:FindFirstChild("Humanoid") then
+
+			plrChosen.Character.Humanoid.Health = 0
+		end
+
+
+	elseif buttonChosen == "Kick" then
+
+		game.ReplicatedStorage.KickPlayer.OnServerEvent:connect(function(player, playerToKick, reason)
+			for i, v in pairs(allowed) do
+				if player.Name == v then
+					game.Players:FindFirstChild(playerToKick):Kick(reason)
+				end
+			end
+		end)
+
+	elseif buttonChosen == "Bring" and plrChosen.Character and admin.Character then
+
+		plrChosen.Character.HumanoidRootPart.CFrame = admin.Character.HumanoidRootPart.CFrame + Vector3.new(0, 10, 0)
+
+
+	elseif buttonChosen == "TeleportTo" and plrChosen.Character and admin.Character then
+
+		admin.Character.HumanoidRootPart.CFrame = plrChosen.Character.HumanoidRootPart.CFrame + Vector3.new(0, 10, 0)
+	elseif buttonChosen == "Ban" then
+		plrChosen:Kick("This is a place holder until i learn how to make a ban system")
+		
+	elseif buttonChosen == "Shutdown" then
+		plrChosen:Kick("p l a c e h o l d e r ")
+		
+	
+	end
+end)

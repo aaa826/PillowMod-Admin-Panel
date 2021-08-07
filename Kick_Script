@@ -1,0 +1,20 @@
+local frame = script.Parent.Background
+
+script.Parent.GuiToggle.MouseButton1Click:Connect(function()
+	if frame.Visible == false then
+		frame.Visible = true
+	else
+		frame.Visible = false
+	end
+end)
+
+
+frame.Cancel.MouseButton1Click:Connect(function()
+	frame.Visible = false
+end)
+
+frame.Kick.MouseButton1Click:Connect(function()
+	if game.Players:FindFirstChild(frame.Player.Text)then
+		game.ReplicatedStorage.KickPlayer:FireServer(frame.Player.Text, frame.Reason.Text)
+	end
+end)
